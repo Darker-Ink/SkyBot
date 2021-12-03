@@ -1,0 +1,35 @@
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# Dependency directories
+node_modules/
+.node_repl_history
+.npm
+.env
+config.json
+json.sqlite
+javascript_playground.js
+giveaways.json
+sharding.js
+snipe.json
+restart.bat
+test.bat
+install.bat
+.git-credentials
+.pm2
+.config/configstore
+.cache
+config.json
+.gitconfig
