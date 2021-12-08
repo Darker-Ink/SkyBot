@@ -33,8 +33,6 @@ module.exports = {
     }}
 
 
-// I want something where if the ping is under 10ms it shows nothing if it is over 10ms it will show green if it is over 120ms it will show yellow and if its over 500 it will show red
-
 function ptype(ping) {
     if (ping < 120) return '<:green:849844528680796200> ' + ping + 'ms';
     if (ping < 500) return '<:orange:849844491342839868>' + ping + 'ms';
