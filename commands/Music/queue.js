@@ -13,22 +13,36 @@ module.exports = {
             const queueError = new MessageEmbed()
                 .setDescription("There is Nothing Playing")
                 .setColor("RED")
-            return message.channel.send(queueError)
+            return message.channel.send({embeds: [queueError]});
         }
-        if (!queue.length > 90) {
-            return message.channel.send("This queue is to powerful I can't read it... Is it over 20 songs?")
-        }
-        
-        let q = queue.songs.map((song, i) => {
-            return `${i === 0 ? "Playing:" : `${i}.`} ${song.name} - \`${song.formattedDuration}\``
-        }).join("\n");
 
+        queue = queue.songs;
+        console.log(queue);
+        let page = 1;
+        if (args[0] && !isNaN(args[0])) page = Math.max(1, Math.min(args[0], Math.ceil(queue.length / 10)));
         const embed = new MessageEmbed()
-            .setDescription(`**Server Queue: ** \n\n  ${q}`)
-            .setColor("BLUE")
-
-        message.channel.send({
-            embeds: [embed]
-        })
-    }
-}
+            .setColor("RANDOM")
+            .setFooter(`Page ${page} of ${Math.ceil(queue.length / 10)}`)
+            .setDescription(queue.slice((page - 1) * 10).slice(0, 10).map((song, i) => `**${i}** - [${song.name}](${song.url})`).join("\n"))
+        let msg = await message.channel.send({embeds: [embed]});
+        await msg.react("⬅");
+        await msg.react("➡");
+        const backwardsFilter = (reaction, user) => reaction.emoji.name === "⬅" && user.id === message.author.id;
+        const forwardsFilter = (reaction, user) => reaction.emoji.name === "➡" && user.id === message.author.id;
+        const backwards = msg.createReactionCollector({ filter: backwardsFilter, time: 60000 });
+        const forwards = msg.createReactionCollector({ filter: forwardsFilter, time: 60000 });
+        backwards.on("collect", () => {
+            if (page === 1) return;
+            page--;
+            embed.setFooter(`Page ${page} of ${Math.ceil(queue.length / 10)}`)
+            embed.setDescription(queue.slice((page - 1) * 10).slice(0, 10).map((song, i) => `**${i}** - [${song.name}](${song.url})`).join("\n"))
+            msg.edit({embeds: [embed]});
+        });
+        forwards.on("collect", () => {
+            if (page === Math.ceil(queue.length / 10)) return;
+            page++;
+            embed.setFooter(`Page ${page} of ${Math.ceil(queue.length / 10)}`)
+            embed.setDescription(queue.slice((page - 1) * 10).slice(0, 10).map((song, i) => `**${i}** - [${song.name}](${song.url})`).join("\n"))
+            msg.edit({embeds: [embed]});
+        });
+    }}

@@ -1,4 +1,3 @@
-require("../../ExtendedMessage");
 const Discord = require('discord.js')
 const ms = require('ms')
 const os = require('os')
@@ -19,5 +18,25 @@ module.exports = {
     'Testing, testing, 1, 2, 3!'
   ];
         const dresponses = responses[Math.floor(Math.random() * responses.length)];
-			message.channel.send(`**API:**\`${new Date() - dt}ms\`\n\n**WS:**\`${client.ws.ping}ms\`\n\n**Linux Uptime:**\`${ms(os.uptime() * 1000, { long: true })}\``)
+        const embed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`Pinging...`)
+        const pmsg = await message.channel.send({embeds: [embed]})
+        const ping = pmsg.createdTimestamp - message.createdTimestamp;
+        const embed2 = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`Pong!`)
+        .setFooter(`${dresponses}`)
+        .addField(`Ping:`, `${ptype(ping)}`)
+        .addField(`API:`, `${ptype(Math.round(client.ws.ping))}`)
+        pmsg.edit({embeds: [embed2]})
     }}
+
+
+// I want something where if the ping is under 10ms it shows nothing if it is over 10ms it will show green if it is over 120ms it will show yellow and if its over 500 it will show red
+
+function ptype(ping) {
+    if (ping < 120) return '<:green:849844528680796200> ' + ping + 'ms';
+    if (ping < 500) return '<:orange:849844491342839868>' + ping + 'ms';
+    return '<:red:849844404235927613>' + ping + 'ms';
+}

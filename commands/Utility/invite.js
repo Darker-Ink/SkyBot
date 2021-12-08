@@ -1,7 +1,6 @@
 const {
     MessageEmbed
 } = require("discord.js")
-require("../../ExtendedMessage");
 
 module.exports = {
     name: 'invite',
@@ -15,6 +14,6 @@ module.exports = {
             .setColor("BLUE")
 
 
-        message.inlineReply(embed)
+        message.reply({embeds: [embed]})
     }
 }

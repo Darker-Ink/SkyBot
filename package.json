@@ -1,44 +1,35 @@
 {
-  "name": "sky-bot",
-  "version": "4.0.0",
-  "description": "This is Sky-Bot, It is a great bot made by Darkerink#1750",
+  "name": "sky-bot-renewed",
+  "version": "1.0.0",
+  "description": "An Multi Use Discord Bot! It's Got Stuff Like: * Command Cooldowns * Command Permissions * OwnerOnly Commands",
   "main": "index.js",
-  "dependencies": {
-    "@discordjs/opus": "^0.3.3",
-    "@distube/spotify": "^1.0.0",
-    "axios": "^0.21.2",
-    "canvacord": "^5.0.7",
-    "chalk": "^4.1.1",
-    "child_process": "^1.0.2",
-    "colors": "^1.4.0",
-    "date-and-time": "^1.0.0",
-    "discord.js": "^13.3.1",
-    "distube": "^3.0.3",
-    "dotenv": "^8.2.0",
-    "mathjs": "^8.0.1",
-    "moment": "^2.29.1",
-    "moment-duration-format": "^2.3.2",
-    "mongoose": "^5.10.9",
-    "ms": "^2.1.2",
-    "node-fetch": "^2.6.1",
-    "node-os-utils": "^1.3.5",
-    "os-utils": "0.0.14",
-    "parse-ms": "^2.1.0",
-    "quick.db": "^7.1.3",
-    "srod-v2": "^1.0.2",
-    "ytdl-core": "^4.8.0"
-  },
-  "devDependencies": {},
   "scripts": {
-    "test": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DarkSky-Inc/Sky-Bot"
+    "url": "git+https://github.com/Darker-Ink/SkyBot.git"
   },
-  "keywords": [
-    "discord.js"
-  ],
-  "author": "Darkerink#1750",
-  "license": "MIT"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Darker-Ink/SkyBot/issues"
+  },
+  "homepage": "https://github.com/Darker-Ink/SkyBot#readme",
+  "dependencies": {
+    "@distube/spotify": "^1.0.0",
+    "axios": "^0.24.0",
+    "colors": "^1.4.0",
+    "date-and-time": "^2.0.1",
+    "discord.js": "^13.3.1",
+    "distube": "^3.0.3",
+    "dotenv": "^10.0.0",
+    "finder": "^0.1.4",
+    "libsodium-wrappers": "^0.7.9",
+    "lyrics": "^0.0.1",
+    "lyrics-finder": "^21.7.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.14"
+  }
 }

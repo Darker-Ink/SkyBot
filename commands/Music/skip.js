@@ -1,6 +1,4 @@
-const {
-    MessageEmbed
-} = require("discord.js")
+const {MessageEmbed} = require("discord.js")
 
 module.exports = {
     name: 'skip',
@@ -9,27 +7,16 @@ module.exports = {
     aliases: [],
     category: "Music",
     run: async (client, message, args) => {
-        if (!message.member.voice.channel) {
-            const skipError = new MessageEmbed()
-                .setDescription("You Need to be in a Voice Channel to skip music!")
-                .setColor("RED")
-            return message.channel.send({embeds: [skipError]})
-        }
-        if (!client.distube.isPlaying(message)) {
-            const skipError2 = new MessageEmbed()
-                .setDescription("There is Nothing Playing")
-                .setColor("RED")
-            return message.channel.send({embeds: [skipError2]})
-        }
-
-        let queue = client.distube.skip(message)
-
+        const queue = client.distube.getQueue(message);
+        if (!queue) return message.channel.send("There is no Queue");
+        if (!queue.songs[0]) return message.channel.send("There is no Song in Queue");
         const embed = new MessageEmbed()
-            .setDescription(`Skipped!`)
-            .setColor("BLUE")
-
-        message.channel.send({
-            embeds: [embed]
-        })
+            .setTitle("Skipped Song")
+            .setColor("#ff0000")
+            message.channel.send({embeds: [embed]});
+            if(queue.songs.length <= 1) {
+                return queue.stop()
+            }
+            queue.skip()
     }
 }

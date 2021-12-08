@@ -1,20 +1,21 @@
 const {
     MessageEmbed
 } = require("discord.js");
-const {
-    readdirSync
-} = require("fs");
+const fs = require("fs");
 const mongoose = require('mongoose');
 const Guild = require('../../schema.js')
+const path = require("path")
 const dir = path.join(__dirname, "../");
+let files = []
 module.exports = {
     name: "help",
     aliases: [''],
     description: "Shows all available bot commands.",
     disabled: false,
     run: async (client, message, args) => {
-    const commands = getFiles(dir);
-    console.log(commands);
+    getFiles(dir)
+        
+    console.log(files);
     }}
 
 

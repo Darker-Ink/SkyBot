@@ -1,7 +1,5 @@
 const Discord = require('discord.js');
 const configs = require('../../config/config.json');
-const db = require('quick.db')
-const ms = require("parse-ms");
 module.exports = {
     name: 'old-help',
     guildOnly: false,
