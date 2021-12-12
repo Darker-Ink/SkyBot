@@ -1,6 +1,4 @@
-const {
-    MessageEmbed
-} = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 
 module.exports = {
     name: 'volume',
@@ -16,34 +14,10 @@ module.exports = {
                 .setColor("RED")
             return message.channel.send({
                 embeds: [queueError]
-            })
+            });
         }
-        let cursong = queue.songs[0];
-        if (!cursong) {
-            const resumeError2 = new MessageEmbed()
-                .setDescription("There is Nothing Playing")
-                .setColor("RED")
-            return message.channel.send({
-                embeds: [resumeError2]
-            })
-        }
-        let volume = parseInt(args[0])
-        if (isNaN(args[0])) {
-            const volumeError3 = new MessageEmbed()
-                .setDescription('Please Enter a Valid Number Between 1 and 100')
-                .setColor("RED")
-            return message.channel.send({
-                embeds: [volumeError3]
-            })
-        }
-        if (args[0] > 250) {
-            const volumeError4 = new MessageEmbed()
-                .setDescription('Please Enter a Valid Number Between 1 and 100')
-                .setColor("RED")
-            return message.channel.send({
-                embeds: [volumeError4]
-            })
-        }
+        if (isNaN(args[0])) return message.channel.send("Please provide a valid number from 1 to 100");
+        let volume = parseInt(args[0]);
 
         client.distube.setVolume(message, volume)
         const embed = new MessageEmbed()

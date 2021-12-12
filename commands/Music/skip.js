@@ -7,9 +7,7 @@ module.exports = {
     aliases: [],
     category: "Music",
     run: async (client, message, args) => {
-        const queue = client.distube.getQueue(message);
-        if (!queue) return message.channel.send("There is no Queue");
-        if (!queue.songs[0]) return message.channel.send("There is no Song in Queue");
+        const queue = client.distube.getQueue(message)
         const embed = new MessageEmbed()
             .setTitle("Skipped Song")
             .setColor("#ff0000")

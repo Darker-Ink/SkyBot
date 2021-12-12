@@ -25,7 +25,6 @@ module.exports = {
                 await message.reply('Joined The VC');
             } else {
                 const connection = await connectToChannel(channel)
-                connection.guild.me.voice.setDeaf(true);
                 await message.reply('Joined The VC');
             }
         } else {

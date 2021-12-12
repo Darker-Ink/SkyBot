@@ -15,13 +15,16 @@ module.exports = {
                 .setColor("RED")
             return message.channel.send({embeds: [stopError]})
         }
-        if (!client.distube.queue.playing(message)) {
-            const stopError2 = new MessageEmbed()
+        
+        let queue = client.distube.getQueue(message);
+        if (!queue) {
+            const queueError = new MessageEmbed()
                 .setDescription("There is Nothing Playing")
                 .setColor("RED")
-            return message.channel.send({embeds: [stopError2]})
+            return message.channel.send({embeds: [queueError]});
         }
-        client.distube.stop(message);
+        queue.stop()
+
         const embed = new MessageEmbed()
             .setDescription('Stopped!')
             .setColor("BLUE")

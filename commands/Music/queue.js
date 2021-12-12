@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 module.exports = {
     name: 'queue',
@@ -6,7 +6,6 @@ module.exports = {
     usage: "?queue",
     aliases: ["q"],
     category: "Music",
-    disabledbug: true,
     run: async (client, message, args) => {
         let queue = client.distube.getQueue(message);
         if (!queue) {
@@ -17,32 +16,53 @@ module.exports = {
         }
 
         queue = queue.songs;
-        console.log(queue);
         let page = 1;
+        
         if (args[0] && !isNaN(args[0])) page = Math.max(1, Math.min(args[0], Math.ceil(queue.length / 10)));
+        
+        const row = new MessageActionRow()
+        .addComponents(new MessageButton() .setCustomId("prev") .setLabel("Previous") .setStyle('PRIMARY') .setEmoji('⬅') )
+        .addComponents( new MessageButton() .setCustomId("next") .setLabel("Next") .setStyle('PRIMARY') .setEmoji('➡'))
         const embed = new MessageEmbed()
             .setColor("RANDOM")
+            .setTitle("Now Playing: " + queue[0].name)
             .setFooter(`Page ${page} of ${Math.ceil(queue.length / 10)}`)
             .setDescription(queue.slice((page - 1) * 10).slice(0, 10).map((song, i) => `**${i}** - [${song.name}](${song.url})`).join("\n"))
-        let msg = await message.channel.send({embeds: [embed]});
-        await msg.react("⬅");
-        await msg.react("➡");
-        const backwardsFilter = (reaction, user) => reaction.emoji.name === "⬅" && user.id === message.author.id;
-        const forwardsFilter = (reaction, user) => reaction.emoji.name === "➡" && user.id === message.author.id;
-        const backwards = msg.createReactionCollector({ filter: backwardsFilter, time: 60000 });
-        const forwards = msg.createReactionCollector({ filter: forwardsFilter, time: 60000 });
-        backwards.on("collect", () => {
-            if (page === 1) return;
+        
+            let msg = await message.channel.send({embeds: [embed], components: [row]});
+
+        const backwardsFilter = (i) => i.customId === "prev"
+
+        const forwardsFilter = (i) => i.customId === "next"
+
+        const backwards = msg.createMessageComponentCollector({ filter: backwardsFilter, time: 60000 });
+
+        const forwards = msg.createMessageComponentCollector({ filter: forwardsFilter, time: 60000 });
+
+        backwards.on("collect", (i, u) => {
+            if(i.user.id != message.author.id) return i.reply({content: `Stop messing with ${message.author.username}'s buttons!`, ephemeral: true});
+            
+            if (page === 1) return i.reply({content: "You are on the first page!", ephemeral: true});
+            
             page--;
+
             embed.setFooter(`Page ${page} of ${Math.ceil(queue.length / 10)}`)
+            
             embed.setDescription(queue.slice((page - 1) * 10).slice(0, 10).map((song, i) => `**${i}** - [${song.name}](${song.url})`).join("\n"))
-            msg.edit({embeds: [embed]});
+            
+            i.update({embeds: [embed]});
         });
-        forwards.on("collect", () => {
-            if (page === Math.ceil(queue.length / 10)) return;
+
+        forwards.on("collect", (i, u) => {
+            console.log(i)
+            if(i.user.id != message.author.id) return i.reply({content: `Stop messing with ${message.author.username}'s buttons!`, ephemeral: true});
+
+            if (page === Math.ceil(queue.length / 10)) return i.reply({content: "You are on the last page!", ephemeral: true});
             page++;
+
             embed.setFooter(`Page ${page} of ${Math.ceil(queue.length / 10)}`)
             embed.setDescription(queue.slice((page - 1) * 10).slice(0, 10).map((song, i) => `**${i}** - [${song.name}](${song.url})`).join("\n"))
-            msg.edit({embeds: [embed]});
+            
+            i.update({embeds: [embed]});
         });
     }}
