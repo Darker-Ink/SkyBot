@@ -33,3 +33,4 @@ install.bat
 .cache
 config.json
 .gitconfig
+commands/Utility/banner.js

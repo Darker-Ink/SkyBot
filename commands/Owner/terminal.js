@@ -16,7 +16,7 @@ module.exports = {
         try {
             process.exec(args.join(" "), (error, stdout) => {
                 let result = (stdout || error);
-                console.log(result, {
+                msg.edit(result, {
                     code: "asciidoc",
                     split: "\n"
                 })

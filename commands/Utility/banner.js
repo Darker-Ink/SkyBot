@@ -5,6 +5,7 @@ module.exports = {
     description: "To get someones banner",
     category: "Utility",
     run: async (client, message, args) => {
+        try {
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || await client.users.fetch(args[0])
         const banner = fetch(`https://discord.com/api/v8/users/${user.id}`, {
             method: 'GET',
@@ -26,10 +27,14 @@ module.exports = {
         if(!await banner) return message.channel.send("This user has no banner!")
         const embed = new Discord.MessageEmbed()
             .setColor("DARK_RED")
-            .setTitle(`${user.username}'s banner`)
+            .setTitle(`${user.username || user.user.username}'s banner`)
             .setImage(await banner)
             .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }))
             .setTimestamp();
             message.channel.send({embeds: [embed]});
     }
-}
+    catch(err) {
+        message.channel.send(`User no here!`)
+
+    }
+}}

@@ -19,15 +19,6 @@ client.on("messageCreate", async message => {
     if (command.ownerOnly && !config.owners.includes(message.author.id)) {
         return
     }
-    if (!message.member.permissions.has(command.perms)) {
-        message.channel.send(`You do Not have the right perms to use this command You need \`\`${command.perms.join(", ")}\`\` To use this command!`, command.perms)
-        return;
-    }
-    if (!message.guild.me.permissions.has(command.botperms)) {
-        const mIm = (`${command.perms}`)
-        message.channel.send(`I am **Missing Perms** Please Add these: \`\`${command.botperms.join(", ")}\`\``, command.botperms)
-        return;
-    }
 
     coolDown(message, command)
 

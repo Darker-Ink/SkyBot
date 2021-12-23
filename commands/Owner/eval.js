@@ -14,26 +14,28 @@ module.exports = {
     aliases: [],
     category: "Owner",
     hidden: true,
+    ownerOnly: true,
     run: async (client, message, args) => {
-        const code = args.join(" ");
+        let code = args.join(" ");
         if (!code) return message.channel.send("Please provide some code to evaluate!");
         try {
-            const evaled = eval(code);
-            if (typeof evaled !== "string")
-                evaled = inspect(evaled);
-            const embed = new MessageEmbed()
+            let evaled = eval(code);
+                
+                let embed = new MessageEmbed()
                 .setColor("RANDOM")
                 .setTitle("Evaluation")
                 .setDescription(`\`\`\`js\n${evaled}\`\`\``)
+                .addField("Type", typeof evaled)
                 .setFooter(`Evaluated by ${message.author.tag}`);
             message.channel.send({embeds: [embed]});
         }
         catch (err) {
-            const msg = err.message.toString();
-            const embed = new MessageEmbed()
+            let msg = err.message.toString();
+            let embed = new MessageEmbed()
                 .setColor("RANDOM")
                 .setTitle("Evaluation")
                 .setDescription(`\`\`\`js\n${msg}\`\`\``)
+                .addField("Type", typeof msg)
                 .setFooter(`Evaluated by ${message.author.tag}`);
             message.channel.send({embeds: [embed]});
         }

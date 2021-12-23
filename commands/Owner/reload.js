@@ -16,6 +16,7 @@ module.exports = {
     category: "Owner",
     hidden: true,
     run: async (client, message, args) => {
+        if(!args[0]) return message.channel.send("Please provide a command to reload!")
         const commandName = args[0].toLowerCase();
         const command = message.client.commands.get(commandName) ||
             message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
