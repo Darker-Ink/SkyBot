@@ -16,8 +16,6 @@ client.distube.on("playSong", (queue, song) => {
 })
 
 
-// I want to take a number and add , to the right places
-
 function addCommas(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
